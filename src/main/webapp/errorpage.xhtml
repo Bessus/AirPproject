@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="WEB-INF/templates/BasicTemplate.xhtml">
+	<ui:define name="content">
+		<h:head>
+			<title>Welcome to our company</title>
+			<h:outputStylesheet library="css" name="styles.css" />
+		</h:head>
+		<h:body>
+		<h:form>			
+			<div class="message">
+				<h1>Error exists please report the error to us</h1>
+				<h:graphicImage library="images" name="error.jpg" height="325" width="494"/>
+				
+				<div class="button">
+					<p:commandButton action="home?faces-redirect=true" value="Return to home"/>
+				</div>				
+			</div>
+		</h:form>			
+		</h:body>
+	</ui:define>
+</ui:composition>
+</html>

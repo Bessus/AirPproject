@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<ui:composition template="WEB-INF/templates/BasicTemplate.xhtml">
+	<ui:define name="content">
+		<h:head>
+			<title>Welcome to our company</title>
+			<h:outputStylesheet library="css" name="styles.css" />
+		</h:head>
+		<h:body>
+			<h:form>
+				<div align="right" style="vertical-align: top;">					
+					<h:commandButton action="home?faces-redirect=true" image="resources/images/back.jpg" style="width:50px;height:50px" title="Back"/>					
+				</div>			
+			<div class="message">
+				<h1>Search Result</h1>
+			</div>			
+				<p:dataTable value="#{homeBean.flightList}" var="flight"
+					styleClass="flightTable" headerClass="flightTableHeader"
+					rowClasses="flightTableOddRow" tableStyleClass="message" emptyMessage="No fligths for this date">
+					<p:column>
+						<f:facet name="header">Departure Time</f:facet>
+						<h:outputText value="#{flight.departureTime}">
+							<f:convertDateTime pattern="dd.MM.yyyy hh:mm" />
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<f:facet name="header">Departure</f:facet>
+				#{flight.departure} (#{flight.departure.iata})<pre />
+						<div style="font-size: 16px">#{flight.departure.country}</div>
+		</p:column>
+					<p:column>
+						<f:facet name="header">Destination</f:facet>
+			#{flight.destination} (#{flight.destination.iata})<pre />
+						<div style="font-size: 16px">#{flight.destination.country}</div>
+		</p:column>
+					<p:column>
+						<f:facet name="header">Price</f:facet>
+			#{flight.price}
+		</p:column>
+		<p:column>
+						<f:facet name="header">Free tickets</f:facet>
+			#{flight.quontity}
+		</p:column>
+					<p:column>
+						<f:facet name=""></f:facet>
+						<p:commandButton value="Buy" actionListener="#{homeBean.setFlight(flight)}" oncomplete="PF('dlg1').show()"
+						 title="Buy tickets for this flight">						
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+			
+			<p:dialog header="Fill the form in order to buy a ticket"
+				widgetVar="dlg1" modal="true" height="250">
+				<h:form id="dialogForm">
+					<h:panelGrid columns="2" style="margin-bottom:10px">
+						<p:outputLabel>Name:</p:outputLabel>
+						<p:outputLabel>		
+						<p:inputText id="name" value="#{homeBean.passenger.name}" required="True" requiredMessage="You must enter name">
+						</p:inputText>
+						<p:message for="name" />
+						</p:outputLabel>	
+						
+						<p:outputLabel>Second name:</p:outputLabel>	
+						<p:outputLabel>					
+						<p:inputText id="secondName"
+							value="#{homeBean.passenger.secondName}" required="True" requiredMessage="You must enter second name">
+						</p:inputText>
+						<p:message for="secondName" />
+						</p:outputLabel>
+							
+						<p:outputLabel>E-mail:</p:outputLabel>
+						<p:outputLabel>		
+						<p:inputText id="eMail" value="#{homeBean.passenger.eMail}" validator="#{homeBean.validateEmail}"
+						required="True" requiredMessage="You must enter email">
+						</p:inputText>
+						<p:message for="eMail" />
+						</p:outputLabel>							
+						
+						<p:outputLabel>Phone number:</p:outputLabel>
+						<p:outputLabel>							
+						<p:inputText id="phone" value="#{homeBean.passenger.phoneNumber}" validator="#{homeBean.validatePhone}"
+						required="True" requiredMessage="You must enter phone number">
+						</p:inputText>
+						<p:message for="phone" />
+						</p:outputLabel>	
+						
+						<p:outputLabel>Quontity:</p:outputLabel>
+						<p:outputLabel>						
+						<p:selectOneMenu id="quontity" value="#{homeBean.quontity}" validator="#{homeBean.validateQuontity}">
+							<f:selectItems value="#{homeBean.numbers}" />
+						</p:selectOneMenu>						
+						<p:message for="quontity" />
+						</p:outputLabel>
+						<p:commandButton value="Submit" action="#{homeBean.buy}"
+							oncomplete="if (!args.validationFailed) PF('dlg1').hide()" update=":dialogForm"></p:commandButton>
+							<p:commandButton value="Cancel" onclick="PF('dlg1').hide()"></p:commandButton>						
+					</h:panelGrid>
+				</h:form>
+			</p:dialog>			
+		</h:body>
+	</ui:define>
+</ui:composition>
+</html>

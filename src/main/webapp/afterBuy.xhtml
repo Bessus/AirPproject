@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="WEB-INF/templates/BasicTemplate.xhtml">
+	<ui:define name="content">
+		<h:head>
+			<title>Reservation completed</title>
+			<h:outputStylesheet library="css" name="styles.css" />
+		</h:head>
+		<h:body>
+			<div class="message">
+				<h1>Reservation completed</h1>
+			</div>
+			<h:graphicImage library="images" name="planeBuy.jpg" height="120" />
+			<h:form>
+				<p:panelGrid columns="1" style="margin-top:20px">
+					<f:facet name="header">
+						Reserve Information
+					</f:facet>
+					<div class="message">Departure: #{homeBean.flight.departure}</div>
+					<div class="message">Destination:
+						#{homeBean.flight.destination}</div>
+					<p:outputLabel>
+						<div class="message">
+							Departure time:
+							<h:outputText class="message"
+								value="#{homeBean.flight.departureTime}">
+								<f:convertDateTime pattern="dd.MM.yyyy HH:MM" />
+							</h:outputText>
+						</div>
+					</p:outputLabel>
+					<div class="message">Number of tickets: #{homeBean.quontity}</div>
+					<div class="message">Total price: #{homeBean.totalPrice}</div>
+				</p:panelGrid>
+				<div class="button" style="margin-top: 20px; margin-bottom: 20px">
+					<p:commandButton action="home?faces-redirect=true"
+						value="Return to main" />
+				</div>
+			</h:form>
+		</h:body>
+	</ui:define>
+</ui:composition>
+</html>

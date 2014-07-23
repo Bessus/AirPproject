@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="WEB-INF/templates/BasicTemplate.xhtml">
+	<ui:define name="content">
+		<h:head>
+			<title>Welcome to our company</title>
+			<h:outputStylesheet library="css" name="styles.css" />
+		</h:head>
+		<h:body>
+			<h:form>
+				<div align="right" style="vertical-align: top;">
+					<h:commandButton action="#{adminBean.logout}" image="resources/images/logout.jpg" style="width:50px;height:50px" title="Logut"/>
+					<h:commandButton action="#{adminBean.goBack}" image="resources/images/back.jpg" style="width:50px;height:50px" title="Back"/>
+				</div>
+				<div class="message">
+					<h1>List of tickets</h1>
+					<h3>For flight: #{adminBean.flight.departure} - #{adminBean.flight.destination} <h:outputText value="#{adminBean.flight.departureTime}">
+							<f:convertDateTime pattern="dd.MM.yyyy HH:MM" />
+						</h:outputText></h3>
+					
+				</div>
+				<p:dataTable value="#{adminBean.ticketList}" var="ticket"
+					rendered="true" id="ticketsTable" tableStyleClass="message">
+					<p:column>
+						<f:facet name="header">Status</f:facet>
+			#{ticket.status}
+		</p:column>
+					<p:column>
+						<f:facet name="header">BuyingDate</f:facet>
+						<h:outputText value="#{ticket.buyingDate}">
+							<f:convertDateTime pattern="dd.MM.yyyy" />
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<f:facet name="header">Passenger</f:facet>
+			#{ticket.passenger}
+		</p:column>
+					<p:column>
+						<f:facet name=""></f:facet>
+						<p:commandButton value="Delete"
+							action="#{adminBean.deleteTicket(ticket)}">
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+			<h:form>
+				<h:panelGrid columns="6">
+					<p:commandButton value="Add" onclick="PF('dlg2').show()"
+						type="button" />
+				</h:panelGrid>
+			</h:form>
+			<p:dialog header="Adding tickets" widgetVar="dlg2" modal="true"
+				height="150">
+				<h:form id="dialogForm">
+					<h:panelGrid columns="2" style="margin-bottom:10px">
+						<h:outputLabel for="quontity" value="Quontity:" />
+						<p:outputLabel>
+						<p:inputText id="quontity" value="#{adminBean.quontity}" validator="#{adminBean.validateQuontity}"></p:inputText>
+						<p:message for="quontity" />
+						</p:outputLabel>
+						<p:commandButton value="Submit" action="#{adminBean.addTickets}"
+							oncomplete="if (!args.validationFailed) PF('dlg2').hide()" update=":dialogForm"></p:commandButton>
+						<p:commandButton value="Cancel" onclick="PF('dlg2').hide()"></p:commandButton>
+					</h:panelGrid>
+				</h:form>
+			</p:dialog>
+		</h:body>
+	</ui:define>
+</ui:composition>
+</html>

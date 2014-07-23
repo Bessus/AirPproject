@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="WEB-INF/templates/BasicTemplate.xhtml">
+	<ui:define name="content">
+		<h:head>
+			<title>Welcome to our company</title>
+			<h:outputStylesheet library="css" name="styles.css" />
+		</h:head>
+		<h:body>			
+			<div class="message">
+				<h2>Welcome! Please, choose destination and date!</h2>
+			</div>
+			<h:graphicImage library="images" name="flights.jpg" height="90"/>
+			<h:form id="panelForm" >			
+				<h:panelGrid columns="2"  style="margin-top:20px;"
+		align="center">
+					<div class="message">From</div>
+					<p:outputLabel>
+					<p:autoComplete id="departure" value="#{homeBean.departure}" completeMethod="#{homeBean.completeAirPort}" 
+					required="True" requiredMessage="You must enter departure"/>
+					<p:message for="departure" />
+					</p:outputLabel>
+					<div class="message">To</div>
+					<p:outputLabel>
+					<p:autoComplete id="destination" value="#{homeBean.destination}" completeMethod="#{homeBean.completeAirPort}" 
+					required="True" requiredMessage="You must enter destination"/>
+					<p:message for="destination" />
+					</p:outputLabel>
+					<div class="message">Date</div>
+					<p:outputLabel>
+					<p:calendar id="calendar" value="#{homeBean.departureTime}" effect="slide" pages="2" mindate="#{homeBean.minDate}" 
+					required="True" requiredMessage="You must enter date"/>
+					<p:message for="calendar" />
+					</p:outputLabel>					
+				</h:panelGrid>							
+				<div class="button">
+					<p:commandButton action="#{homeBean.find}" value="Find" update=":panelForm"/>
+				</div>
+			</h:form>
+		</h:body>
+	</ui:define>
+</ui:composition>
+</html>

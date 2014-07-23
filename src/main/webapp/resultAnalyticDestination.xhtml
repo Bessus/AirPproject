@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="WEB-INF/templates/BasicTemplate.xhtml">
+	<ui:define name="content">
+		<h:head>
+			<title>Welcome to our company</title>
+			<h:outputStylesheet library="css" name="styles.css" />
+		</h:head>
+		<h:body>
+			<h:form>				
+				<div align="right" style="vertical-align: top;">
+					<h:commandButton action="#{analyticBean.logout}"
+						image="resources/images/logout.jpg" style="width:50px;height:50px" title="Loguot" />
+					<h:commandButton action="analyticPage?faces-redirect=true"
+						image="resources/images/back.jpg" style="width:50px;height:50px" title="Back"/>
+				</div>
+				<div class="message">
+					<h1>Destination report</h1>
+				</div>
+				<p:dataTable value="#{analyticBean.reportList}" var="list"
+					styleClass="flightTable" headerClass="flightTableHeader"
+					rowClasses="flightTableOddRow" paginator="true" rows="15"
+					tableStyleClass="message">
+					<p:column>
+						<f:facet name="header">Departure</f:facet>
+						#{list.departure}
+					</p:column>
+					<p:column>
+						<f:facet name="header">Destination</f:facet>
+						#{list.destination}
+					</p:column>
+					<p:column>
+						<f:facet name="header">Quantity of sold tickets</f:facet>
+					#{list.quantity}
+					</p:column>
+					<p:column>
+						<f:facet name="header">Total sum</f:facet>
+						<h:outputText value="#{list.sum}">
+							<f:convertNumber type="number" groupingUsed="true"
+								minFractionDigits="2" pattern="#0.00" />
+						</h:outputText>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</h:body>
+	</ui:define>
+</ui:composition>
+</html>

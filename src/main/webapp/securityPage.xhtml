@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="WEB-INF/templates/BasicTemplate.xhtml">
+	<ui:define name="content">
+		<h:head>
+			<title>Welcome to our company</title>
+			<h:outputStylesheet library="css" name="styles.css" />
+		</h:head>
+		<h:body>
+			<h:form>
+				<div align="right" style="vertical-align: top;">
+					<h:commandButton action="#{securityBean.logout}"
+						image="resources/images/logout.jpg" style="width:50px;height:50px"
+						title="Logut" />
+				</div>
+				<div class="message">
+					<h1>List of stuff</h1>
+				</div>
+				<p:dataTable value="#{securityBean.stuffList}" var="stuff" tableStyleClass="message">
+					<p:column>
+						<f:facet name="header">Login</f:facet>
+			#{stuff.login}
+		</p:column>
+					<p:column>
+						<f:facet name="header">Password</f:facet>
+			#{stuff.password}
+		</p:column>
+		<p:column>
+						<f:facet name="header">Type</f:facet>
+			#{stuff.name} #{stuff.secondName}
+		</p:column>
+					<p:column>
+						<f:facet name="header">Type</f:facet>
+			#{stuff.type}
+		</p:column>
+					<p:column>
+						<f:facet name=""></f:facet>
+						<p:commandButton value="Delete"
+							action="#{securityBean.delete(stuff)}">
+						</p:commandButton>
+						<p:commandButton value="Edit"
+							actionListener="#{securityBean.setEdit(stuff)}" update=":ModalEdit"
+							oncomplete="PF('dlg1').show()">
+						</p:commandButton>
+					</p:column>					
+				</p:dataTable>
+			</h:form>
+			<h:form>
+				<h:panelGrid columns="6">					
+					<div class="button">
+						<p:commandButton value="Add" onclick="PF('dlg2').show()"
+							type="button" />
+					</div>
+				</h:panelGrid>
+			</h:form>
+			<p:dialog header="Adding stuff" widgetVar="dlg2" modal="true" resizable="true"
+				minHeight="200">
+				<h:form id="dialogForm2">
+					<h:panelGrid columns="2" style="margin-bottom:10px">
+						<h:outputLabel for="Type" value="Type:" />
+						<p:selectOneMenu value="#{securityBean.stuff.type}">
+							<f:selectItems value="#{securityBean.typeList}" />
+						</p:selectOneMenu>
+						
+						<h:outputLabel for="login2" value="Login:" />
+						<p:outputLabel>
+						<p:inputText id="login2" value="#{securityBean.stuff.login}" required="True" 
+						requiredMessage="Enter the login">
+						</p:inputText>
+						<p:message for="login2" />
+						</p:outputLabel>
+												
+						<h:outputLabel for="password2" value="Password:" />
+						<p:outputLabel>
+						<p:inputText id="password2" value="#{securityBean.stuff.password}" required="True" 
+						requiredMessage="Enter the password">
+						</p:inputText>
+						<p:message for="password2" />
+						</p:outputLabel>
+						
+						<h:outputLabel for="name2" value="Name:" />
+						<p:outputLabel>						
+						<p:inputText id="name2" value="#{securityBean.stuff.name}" required="True" 
+						requiredMessage="Enter the name">
+						</p:inputText>
+						<p:message for="name2" />
+						</p:outputLabel>
+						
+						<h:outputLabel for="secondName1" value="secondName:" />
+						<p:outputLabel>
+						<p:inputText id="secondName1" value="#{securityBean.stuff.secondName}" required="True" 
+						requiredMessage="Enter the second name">
+						</p:inputText>
+						<p:message for="secondName1" />
+						</p:outputLabel>		
+						
+						<p:commandButton value="Submit" action="#{securityBean.addStuff}"
+							oncomplete="if (!args.validationFailed) PF('dlg2').hide()" update=":dialogForm2" />
+						<p:commandButton value="Cancel" onclick="PF('dlg2').hide()"></p:commandButton>
+					</h:panelGrid>
+				</h:form>
+			</p:dialog>
+
+			<p:dialog header="Editing stuff" id="ModalEdit" widgetVar="dlg1" modal="true" resizable="true"
+				minHeight="200">
+				<h:form id="dialogForm1">
+					<h:panelGrid columns="2" style="margin-bottom:10px">
+						<h:outputLabel for="Type" value="Type:" />
+						<p:selectOneMenu value="#{securityBean.type}">
+							<f:selectItems value="#{securityBean.typeList}" />
+						</p:selectOneMenu>
+						<h:outputLabel for="login1" value="Login:" />
+						<p:outputLabel>
+						<p:inputText id="login1" value="#{securityBean.login}" required="True" 
+						requiredMessage="Enter the login">
+						</p:inputText>
+						<p:message for="login1" />
+						</p:outputLabel>
+						<h:outputLabel for="password1" value="Password:" />
+						<p:outputLabel>	
+						<p:inputText id="password1" value="#{securityBean.password}" required="True" 
+						requiredMessage="Enter the password">
+						</p:inputText>
+						<p:message for="password1" />
+						</p:outputLabel>
+						<h:outputLabel for="name1" value="Name:" />
+						<p:outputLabel>
+						<p:inputText id="name1" value="#{securityBean.name}" required="True" 
+						requiredMessage="Enter the name">
+						</p:inputText>
+						<p:message for="login1" />
+						</p:outputLabel>						
+						<h:outputLabel for="secondName1" value="secondName:" />
+						<p:outputLabel>
+						<p:inputText id="secondName1" value="#{securityBean.secondName}" required="True" 
+						requiredMessage="Enter the second name">
+						</p:inputText>
+						<p:message for="secondName1" />
+						</p:outputLabel>		
+						<p:commandButton value="Submit" action="#{securityBean.edit()}" 
+							oncomplete="if (!args.validationFailed) PF('dlg1').hide()" update=":dialogForm1" />
+						<p:commandButton value="Cancel" onclick="PF('dlg1').hide()"></p:commandButton>
+					</h:panelGrid>
+				</h:form>
+			</p:dialog>
+		</h:body>
+	</ui:define>
+</ui:composition>
+</html>

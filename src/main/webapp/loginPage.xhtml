@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<ui:composition template="WEB-INF/templates/BasicTemplate.xhtml">
+	<ui:define name="content">
+		<h:head>
+			<title>Login</title>
+			<h:outputStylesheet library="css" name="styles.css" />
+		</h:head>
+		<h:body>
+			<h:form id="Form">		
+				<div class="message"><h1>Enter your login and password</h1></div>
+				<h:outputText value="#{loginBean.message}" style="color:red"></h:outputText>
+				<h:panelGrid columns="2" style="margin-top:50px;">
+					<div class="message">Name</div>
+					<p:outputLabel>
+					<p:inputText value="#{loginBean.name}" id="name" required="true"
+					requiredMessage="Enter the login"></p:inputText>
+					<p:message for="name" />
+					</p:outputLabel>
+					
+					
+					<div class="message">Password</div>
+					<p:outputLabel>
+					<p:password id="password" value="#{loginBean.password}" required="true"
+					requiredMessage="Enter the password"/>
+					<p:message for="password" />
+					</p:outputLabel>
+				</h:panelGrid>
+				<p:commandButton action="#{loginBean.login}" update=":Form" value="Login" style="margin-top:20px;" />
+			</h:form>
+		</h:body>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="WEB-INF/templates/BasicTemplate.xhtml">
+	<ui:define name="content">
+		<h:head>
+			<title>Welcome to our company</title>
+			<h:outputStylesheet library="css" name="styles.css" />
+		</h:head>
+		<h:body>
+			<h:form>
+				<div align="right" style="vertical-align: top;">
+					<h:commandButton action="#{adminBean.logout}"
+						image="resources/images/logout.jpg" style="width:50px;height:50px"
+						title="Logut" />
+				</div>
+				<div class="message">
+					<h1>List of flights</h1>
+				</div>
+				<p:dataTable value="#{adminBean.flightList}" var="flight"
+					styleClass="flightTable" headerClass="flightTableHeader"
+					rowClasses="flightTableOddRow" paginator="true" rows="8"
+					tableStyleClass="message" sortBy="#{flight.departureTime}">
+					<p:column>
+						<f:facet name="header">Departure Time</f:facet>
+						<h:outputText value="#{flight.departureTime}">
+							<f:convertDateTime pattern="dd.MM.yyyy HH:MM" />
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<f:facet name="header">Departure</f:facet>			
+			#{flight.departure} (#{flight.departure.iata})<pre />
+						<div style="font-size: 16px">#{flight.departure.country}</div>
+					</p:column>
+					<p:column>
+						<f:facet name="header">Destination</f:facet>
+			#{flight.destination} (#{flight.destination.iata})<pre />
+						<div style="font-size: 16px">#{flight.destination.country}</div>
+					</p:column>
+					<p:column>
+						<f:facet name="header">Price</f:facet>
+						<h:outputText value="#{flight.price}">
+							<f:convertNumber type="number" groupingUsed="true"
+								minFractionDigits="2" pattern="#0.00" />
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<f:facet name="header">Free tickets</f:facet>
+						<p:commandLink action="#{adminBean.getTicketsForFlight(flight)}">
+							<h:outputText value="#{flight.quontity}" />
+						</p:commandLink>						
+					</p:column>
+					<p:column>						
+						<p:commandButton value="Delete"
+							action="#{adminBean.deleteFlight(flight)}">
+						</p:commandButton><pre/>
+						<p:commandButton value="Edit"
+							action="#{adminBean.setEdit(flight)}" update=":ModalEdit"
+							oncomplete="PF('dlg1').show()"
+							style="width:100px;height:35px">
+						</p:commandButton>
+						<!--  <p:commandButton value="Tickets"
+							action="#{adminBean.getTicketsForFlight(flight)}">
+						</p:commandButton> -->
+					</p:column>
+				</p:dataTable>
+				<h:panelGrid columns="6">
+					<div class="button">
+						<p:commandButton value="Add Flight"
+							actionListener="#{adminBean.setFlight(flight)}"
+							oncomplete="PF('dlg2').show()">
+						</p:commandButton>
+					</div>
+					<div class="button">
+						<p:commandButton action="#{adminBean.convertAllBookedTicketsFree}"
+							value="Convert Free All" />
+					</div>
+				</h:panelGrid>
+			</h:form>
+			<p:dialog header="Editing flight" id="ModalEdit" widgetVar="dlg1"
+				modal="true" height="220">
+				<h:form id="dialogForm1">
+					<h:panelGrid columns="2" style="margin-bottom:10px">
+						<h:outputLabel for="departureTime" value="Departure Time:" />
+						<p:calendar id="departureTime" value="#{adminBean.departureTime}"
+							pattern="MM/dd/yyyy HH:mm" />
+						<h:outputLabel for="departure" value="Departure:" />
+						<p:selectOneMenu id="departure" value="#{adminBean.departure}">
+							<f:selectItems value="#{adminBean.airportList}" />
+						</p:selectOneMenu>
+						<h:outputLabel for="destination" value="Destination:" />
+						<p:selectOneMenu id="destination" value="#{adminBean.destination}">
+							<f:selectItems value="#{adminBean.airportList}" />
+						</p:selectOneMenu>
+						<h:outputLabel for="price1" value="Price:" />
+						<p:outputLabel>
+							<p:inputText id="price1" value="#{adminBean.price}"
+								required="True" requiredMessage="Enter the price">
+								<f:convertNumber pattern="0.00" />
+							</p:inputText>
+							<p:message for="price1" />
+						</p:outputLabel>
+						<p:commandButton value="Submit" action="#{adminBean.editFlight}"
+							oncomplete="if (!args.validationFailed) PF('dlg1').hide()"
+							update=":dialogForm1">
+						</p:commandButton>
+						<p:commandButton value="Cancel" onclick="PF('dlg1').hide()"></p:commandButton>
+					</h:panelGrid>
+				</h:form>
+			</p:dialog>
+
+			<p:dialog header="Adding flight" widgetVar="dlg2" modal="true"
+				height="200">
+				<h:form id="dialogForm2">
+					<h:panelGrid columns="2" style="margin-bottom:10px">
+						<h:outputLabel for="departureTime" value="Departure Time:" />
+						<p:calendar id="departureTime" value="#{adminBean.departureTime}"
+							pattern="MM/dd/yyyy HH:mm" />
+						<h:outputLabel for="departure" value="Departure:" />
+						<p:selectOneMenu id="departure" value="#{adminBean.departure}">
+							<f:selectItems value="#{adminBean.airportList}" />
+						</p:selectOneMenu>
+						<h:outputLabel for="destination" value="Destination:" />
+						<p:selectOneMenu id="destination" value="#{adminBean.destination}">
+							<f:selectItems value="#{adminBean.airportList}" />
+						</p:selectOneMenu>
+						<h:outputLabel for="price2" value="Price:" />
+						<p:outputLabel>
+							<p:inputText id="price2" value="#{adminBean.price}"
+								required="True" requiredMessage="Enter the price">
+								<f:convertNumber pattern="0.00" />
+							</p:inputText>
+							<p:message for="price2" />
+						</p:outputLabel>
+						<p:commandButton value="Submit" action="#{adminBean.addFlight}"
+							oncomplete="if (!args.validationFailed) PF('dlg2').hide()"
+							update=":dialogForm2">
+						</p:commandButton>
+						<p:commandButton value="Cancel" onclick="PF('dlg2').hide()"></p:commandButton>
+					</h:panelGrid>
+				</h:form>
+			</p:dialog>
+		</h:body>
+	</ui:define>
+</ui:composition>
+</html>

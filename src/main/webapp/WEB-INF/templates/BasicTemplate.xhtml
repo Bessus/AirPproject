@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<title><ui:insert name="title">Default title</ui:insert></title>
+</h:head>
+
+<h:body>
+	<div class="header" style="border-width: 1px; border-color: blue; ">
+		<ui:insert name="header">
+			<ui:include src="header.xhtml" />
+		</ui:insert>
+	</div>
+
+	<div style="border-width: 1px; border-color: blue; border-style: solid; background-color: rgb(7, 220, 237); 
+		min-height:400px; margin-left:10%; color: white; width:80%"
+		align="center">
+		<ui:insert name="content">
+			<ui:include src="content.xhtml"/>
+		</ui:insert>
+	</div>
+
+	<div class="footer" style="border-width: 1px; border-color: blue;">
+		<ui:insert name="footer">		
+		<pre/>
+			<h1 align="center" class="message" style="font-size:24px;">Travel fast and cheap with us!</h1>			
+			<h1 align="center" class="message" style="font-size:14px; margin-top:50px">© 2014, Andrii Bysykalo</h1>	
+			<ui:include src="footer.xhtml" />
+		</ui:insert>
+	</div>
+</h:body>
+
+</html>

@@ -1,0 +1,42 @@
+.message {	
+	font-size:18px;
+	font-family:cursive;
+          color: #344251;
+          text-shadow: 1px 1px 0px #bad3ed;
+          font-weight: bold;
+}
+
+html {
+ background: url("#{resource['images/backgroundSky.jpg']}") no-repeat center center fixed;
+ -webkit-background-size: cover;
+ -moz-background-size: cover;
+ -o-background-size: cover;
+ background-size: cover;
+}
+
+.button {
+	margin:3px;
+	padding:3px;
+}
+
+.footer {
+    width: 79%;
+    height: 150px;
+    margin-left: 10%;
+    background-size: 100% 100%;
+    background-image: url("#{resource['images/footer.jpg']}");
+    position:absolute;
+}
+
+.header {
+    width: 80%;
+    height:15%;
+    background-image: url("#{resource['images/header2.jpg']}");   
+    background-size: 100% 100%;    
+    margin-left: 10%;
+    position: relative;
+    align:center;
+}
+}
+
+​
